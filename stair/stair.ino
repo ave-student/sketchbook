@@ -29,7 +29,6 @@ void setup() {
   
 void loop() {
   int cur_state = debounce_read(sensor_down);
-  digitalWrite(zoomer, cur_state);
   if (prev_state == HIGH) {
     if (cur_state == LOW) {
       switch_led(led1);
