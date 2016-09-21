@@ -1,16 +1,28 @@
+// Пины светодиодов
 #define led1 5
 #define led2 6
 #define led3 7
 #define led4 8
 #define led5 9
+
+// Пин зумера
 #define zoomer 12
+
+// Пины сенсоров
 #define sensor_up 3
 #define sensor_down 2
+
+// Направление движения
 #define UP 1
 #define DOWN 0
 
+// Матрица светодиодов
 int steps[] = {led1, led2, led3, led4, led5};
+
+// Переменные сенсоров
 int prev_state = digitalRead(sensor_down);
+
+// Переменные для функции устранения дребезга контактов
 int state;
 int last_state = HIGH;
 long last_time = 0;
@@ -32,12 +44,10 @@ void loop() {
   if (prev_state == HIGH) {
     if (cur_state == LOW) {
       switch_led(led1);
+      tone(zoomer, 5000);
     }
   }
-  if (cur_state == LOW) {
-    tone(zoomer, 5000);
-  }
-  else {
+  if (cur_state == HIGH) {
     noTone(zoomer);
   }
   prev_state = cur_state;
@@ -47,6 +57,7 @@ void switch_led(int led) {
   digitalWrite(led, !digitalRead(led));
 }
 
+// Функция устранения дребезга контактов
 int debounce_read(int pin) {
   int reading = digitalRead(pin);
   
