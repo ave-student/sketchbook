@@ -1,0 +1,12 @@
+# Datatypes (KEYWORD1)
+
+DigitalInput KEYWORD1
+
+# Methods (KEYWORD2)
+
+read		KEYWORD2
+clicked		KEYWORD2
+pressed		KEYWORD2
+released	KEYWORD2
+getDebounceTime		KEYWORD2
+setDebounceTime		KEYWORD2
