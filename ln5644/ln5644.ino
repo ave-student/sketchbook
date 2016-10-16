@@ -16,13 +16,24 @@ SDigitalOutput do11(11);
 
 SDigitalOutput an[] = {do10, do11, doa5, doa6};
 
-SDigitalOutput seg[8];
+SDigitalOutput do2(2);
+SDigitalOutput do3(3);
+SDigitalOutput do4(4);
+SDigitalOutput do5(5);
+SDigitalOutput do6(6);
+SDigitalOutput do7(7);
+SDigitalOutput do8(8);
+SDigitalOutput do9(9);
 
-void _init(void) {
-	for (int i = 0; i < 8; i++) {
-		seg[i] = newDO(i);
-	}
-}
+SDigitalOutput seg[] = {do2, do3, do4, do5, do6, do7, do8, do9};
+
+/* SDigitalOutput seg[8]; */
+/*  */
+/* void _init(void) { */
+/* 	for (int i = 0; i < 8; i++) { */
+/* 		seg[i] = newDO(i); */
+/* 	} */
+/* } */
 
 /* int an[] = {13, 10, 11, 13}; */
 /* int seg[] = {2, 3, 4, 5, 6, 7, 8, 9};  */
@@ -39,6 +50,9 @@ void _init(void) {
 LN5644 disp(an, seg);
 
 void setup() {
+	Serial.begin(9600);
+	Serial.println("begin");
+	disp.setDelayTime(500);
 	/* for(int i = 2; i <= 11; i++) { */
 	/* 	pinMode(i, OUTPUT); */
 	/* 	if (i > 9) { */
@@ -51,15 +65,19 @@ void setup() {
 	/* delay(2000); */
 	/* digitalWrite(d1, LOW); */
 	/* digitalWrite(d2, LOW); */
-	_init();
+	
+	/* _init(); */
+
 	/* disp.display(1, N6); */
 	/* disp.display(2, N9); */
 }
 
 void loop() {
+	Serial.println("loop");
 	disp.next();
-	int num = analogRead(A0);
-	disp.display(num);
+	Serial.println("next");
+	/* int num = analogRead(A0); */
+	disp.display(690);
 	/* digitalWrite(dig[d], LOW); */
     /*  */
 	/* d = !d; */

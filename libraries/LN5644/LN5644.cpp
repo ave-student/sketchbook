@@ -3,6 +3,7 @@ LN5644.h - библиотека для работы с семисигментн�
 4-х символьным LCD-дисплем.
 */
 
+#include "Arduino.h"
 #include "LN5644.h"
 
 LN5644::LN5644(void) {
@@ -11,6 +12,7 @@ LN5644::LN5644(void) {
 }
 
 LN5644::LN5644(DigitalOutput anods[], DigitalOutput catods[]) {
+	Serial.begin(9600);
 	this->setAnods(anods);
 	this->setCatods(catods);
 
@@ -34,6 +36,8 @@ void LN5644::_initLeds(int state) {
 void LN5644::setAnods(DigitalOutput pins[]) {
 	for (byte i = 0; i < 4; i++) {
 		this->_anods[i] = pins[i];
+		Serial.print(" ");
+		Serial.print(i);
 	}
 }
 
@@ -46,18 +50,21 @@ void LN5644::setCatods(DigitalOutput pins[]) {
 
 // используется в цикле loop() программы для отображения содержимого дисплея
 void LN5644::next(void) {
-	if (this->_delay(this->_delayTime)) {
-	}
-	else {
-		this->_anods[this->_activeAnod].write(LOW);
-		this->_activeAnod = (this->_activeAnod + 5) % 4;
+	// if (this->_delay(this->_delayTime)) {
+	// 	Serial.println("delay");
+	// }
+	// else {
+		Serial.println("next_start");
+		// this->_anods[this->_activeAnod].write(LOW);
+		// this->_activeAnod = (this->_activeAnod + 5) % 4;
 
-		for (int i = 0; i < 8; i++) {
-			this->_catods[i].write(!this->_leds[this->_activeAnod][i]);
-		}
-
+		// for (int i = 0; i < 8; i++) {
+		// 	this->_catods[i].write(!this->_leds[this->_activeAnod][i]);
+		// }
+		Serial.println(this->_activeAnod);
 		this->_anods[this->_activeAnod].write(HIGH);
-	}
+		Serial.println("next_end");
+	// }
 }
 
 // задает время задержки, определяющее частоту мерцания сегментов дисплея
@@ -83,6 +90,7 @@ boolean LN5644::_delay(long ms) {
 		return true;
 	}
 	if ((millis() - this->_initTime) > ms) {
+		this->_onDelay = false;
 		return false;
 	}
 	return true;
@@ -97,11 +105,13 @@ void LN5644::display(int position, int data) {
 }
 
 void LN5644::display(int number) {
+	Serial.println("display_start");
 	int* nums;
 	nums = this->_extractDigits(number);
 	for (int i = 0; i < 4; i++) {
 		this->display(i, this->numbers[nums[i]]);
 	}
+	Serial.println("display_end");
 }
 
 int LN5644::_countNums(int number) {
