@@ -11,7 +11,7 @@ LN5644::LN5644(void) {
 	this->setDelayTime(100);
 }
 
-LN5644::LN5644(DigitalOutput anods[], DigitalOutput catods[]) {
+LN5644::LN5644(int anods[], int catods[]) {
 	Serial.begin(9600);
 	this->setAnods(anods);
 	this->setCatods(catods);
@@ -33,18 +33,24 @@ void LN5644::_initLeds(int state) {
 }
 
 // задает массив выходов подключенных к анодам
-void LN5644::setAnods(DigitalOutput pins[]) {
-	for (byte i = 0; i < 4; i++) {
+void LN5644::setAnods(int pins[]) {
+	for (int i = 0; i < 4; i++) {
 		this->_anods[i] = pins[i];
 		Serial.print(" ");
 		Serial.print(i);
+		Serial.print("-");
+		Serial.println(this->_anods[i]);
 	}
 }
 
 // задает массив выходов подкюченных к катодам
-void LN5644::setCatods(DigitalOutput pins[]) {
-	for (byte i = 0; i < 8; i++) {
+void LN5644::setCatods(int pins[]) {
+	for (int i = 0; i < 8; i++) {
 		this->_catods[i] = pins[i];
+		Serial.print(" ");
+		Serial.print(i);
+		Serial.print("-");
+		Serial.println(this->_catods[i]);
 	}
 }
 
@@ -54,15 +60,38 @@ void LN5644::next(void) {
 	// 	Serial.println("delay");
 	// }
 	// else {
+		delay(500);
 		Serial.println("next_start");
-		// this->_anods[this->_activeAnod].write(LOW);
-		// this->_activeAnod = (this->_activeAnod + 5) % 4;
-
-		// for (int i = 0; i < 8; i++) {
-		// 	this->_catods[i].write(!this->_leds[this->_activeAnod][i]);
-		// }
+		Serial.print("Anod: ");
+		for (int i = 0; i < 4; i++){
+			Serial.print("Anod: ");
+			Serial.print(i);
+			Serial.print(" - ");
+			Serial.println(this->_anods[i]);
+		}
+		for (int i = 0; i < 8; i++){
+			Serial.print("Catod: ");
+			Serial.println(this->_catods[i]);
+		}
+		Serial.print(" Active anode: ");
 		Serial.println(this->_activeAnod);
-		this->_anods[this->_activeAnod].write(HIGH);
+		// this->_anods[this->_activeAnod].write(LOW);
+		digitalWrite(this->_anods[this->_activeAnod], LOW);
+		this->_activeAnod = (this->_activeAnod + 5) % 4;
+		Serial.print(" Active anode: ");
+		Serial.println(this->_activeAnod);
+
+		for (int i = 0; i < 8; i++) {
+			// this->_catods[i].write(!this->_leds[this->_activeAnod][i]);
+			digitalWrite(this->_catods[i], this->_leds[this->_activeAnod][i]);
+			Serial.print("Leds ");
+			Serial.print(i);
+			Serial.print(" : ");
+			Serial.print(this->_leds[this->_activeAnod][i]);
+		}
+		// this->_anods[this->_activeAnod].write(HIGH);
+		delay(500);
+		digitalWrite(this->_anods[this->_activeAnod], HIGH);
 		Serial.println("next_end");
 	// }
 }
@@ -101,6 +130,12 @@ void LN5644::display(int position, int data) {
 	bits = this->_readBits(data);
 	for (int i = 0; i < 8; i++) {
 		this->_leds[position][i] = bits[i];
+		Serial.print("Bit ");
+		Serial.print(i);
+		Serial.print(" : ");
+		Serial.print(bits[i]);
+		Serial.print("; ");
+		Serial.println();
 	}
 }
 
@@ -153,6 +188,14 @@ int* LN5644::_readBits(int data) {
 			outs[i] = 0;
 		}
 		c = c << 1;
+	}
+	for (int i = 0; i < 8; i++) {
+		Serial.print("BitSource ");
+		Serial.print(i);
+		Serial.print(" : ");
+		Serial.print(outs[i]);
+		Serial.print("; ");
+		Serial.println();
 	}
 	return outs;
 }

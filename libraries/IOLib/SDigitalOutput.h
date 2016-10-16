@@ -11,8 +11,8 @@ SDigitalOutput.h - библиотека-обертка для работы с ц
 class SDigitalOutput : public DigitalOutput {
 	public:
 		SDigitalOutput();
-		SDigitalOutput(byte pin);    // конструктор
-		SDigitalOutput(byte pin, byte initState);    //
+		SDigitalOutput(int pin);    // конструктор
+		SDigitalOutput(int pin, byte initState);    //
 		void high();    // установить логическую единицу на выходе
 		void low();    // установить логический ноль на выходе
 		void inverse();    // инвертировать состояние выхода
@@ -20,7 +20,7 @@ class SDigitalOutput : public DigitalOutput {
 		void write(byte state);    // установить заданное состояние выхода
 	private:
 		byte _pin;    // пин выхода
-		void _initPin(byte pin);    // инициализация выхода
+		void _initPin(int pin);    // инициализация выхода
 };
 
 #endif

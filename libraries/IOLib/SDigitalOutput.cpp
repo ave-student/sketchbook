@@ -9,16 +9,16 @@ SDigitalOutput::SDigitalOutput() {
 
 }
 
-SDigitalOutput::SDigitalOutput(byte pin) {
+SDigitalOutput::SDigitalOutput(int pin) {
 	_initPin(pin);
 }
 
-SDigitalOutput::SDigitalOutput(byte pin, byte initState) {
+SDigitalOutput::SDigitalOutput(int pin, byte initState) {
 	_initPin(pin);
 	digitalWrite(_pin, initState);
 }
 
-void SDigitalOutput::_initPin(byte pin) {
+void SDigitalOutput::_initPin(int pin) {
 	_pin = pin;
 	pinMode(_pin, OUTPUT);
 }
