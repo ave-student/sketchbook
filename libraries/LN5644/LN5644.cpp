@@ -5,6 +5,18 @@ LN5644.h - библиотека для работы с семисигментн�
 
 #include "LN5644.h"
 
+// class Example
+// {
+// 	public:
+// 		template< class T >
+// 		void get(T tval);    
+// };
+//  
+// template< class T >
+// void Example::get(T tval)
+// { std:: cout << tval << std::endl; }
+
+
 LN5644::LN5644(void) {
 	_initLeds();
 }
