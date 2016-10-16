@@ -5,67 +5,98 @@ LN5644.h - библиотека для работы с семисигментн�
 
 #include "LN5644.h"
 
-// class Example
-// {
-// 	public:
-// 		template< class T >
-// 		void get(T tval);    
-// };
-//  
-// template< class T >
-// void Example::get(T tval)
-// { std:: cout << tval << std::endl; }
-
-
 LN5644::LN5644(void) {
-	_initLeds();
+	this->_initLeds(LOW);
+	this->setDelayTime(100);
 }
 
-LN5644::LN5644(int anods[], int catods[]) {
-	setAnods(anods);
-	setCatods(catods);
+LN5644::LN5644(DigitalOutput anods[], DigitalOutput catods[]) {
+	this->setAnods(anods);
+	this->setCatods(catods);
 
-	for (int i = 0; i < 4; i++) {
-		pinMode(_anods[i], OUTPUT);
-		digitalWrite(_anods[i], LOW);
-	}
-
-	for (int i = 0; i < 8; i++) {
-		pinMode(_catods[i], OUTPUT);
-		digitalWrite(_catods[i], HIGH);
-	}
-
-	_initLeds();
+	this->_initLeds(LOW);
+	this->setDelayTime(100);
 }
 
-void LN5644::_initLeds(void) {
+// инициирует состояния светодиодов дисплея
+void LN5644::_initLeds(int state) {
 	for (int n = 0; n < 4; n++) {
 		for (int m = 0; m < 8; m++) {
-			_leds[n][m] = 0;
+			this->_leds[n][m] = state;
 		}
 	}
+
+	this->_activeAnod = 0;
+	this->_initTime = 0;
 }
 
-void LN5644::setAnods(int pins[]) {
+// задает массив выходов подключенных к анодам
+void LN5644::setAnods(DigitalOutput pins[]) {
 	for (byte i = 0; i < 4; i++) {
-		_anods[i] = pins[i];
+		this->_anods[i] = pins[i];
 	}
 }
 
-void LN5644::setCatods(int pins[]) {
+// задает массив выходов подкюченных к катодам
+void LN5644::setCatods(DigitalOutput pins[]) {
 	for (byte i = 0; i < 8; i++) {
-		_catods[i] = pins[i];
+		this->_catods[i] = pins[i];
 	}
+}
+
+// используется в цикле loop() программы для отображения содержимого дисплея
+void LN5644::next(void) {
+	if (this->_delay(this->_delayTime)) {
+	}
+	else {
+		this->_anods[this->_activeAnod].write(LOW);
+		this->_activeAnod = (this->_activeAnod + 5) % 4;
+
+		for (int i = 0; i < 8; i++) {
+			this->_catods[i].write(!this->_leds[this->_activeAnod][i]);
+		}
+
+		this->_anods[this->_activeAnod].write(HIGH);
+	}
+}
+
+// задает время задержки, определяющее частоту мерцания сегментов дисплея
+void LN5644::setDelayTime(long time) {
+	this->_delayTime = time;
+}
+
+// тестирование дисплея (включаются все светодиоды)
+void LN5644::test(void) {
+	this->_initLeds(HIGH);
+}
+
+// очистка дисплея
+void LN5644::clear(void) {
+	this->_initLeds(LOW);
+}
+
+// функция задержки по времени
+boolean LN5644::_delay(long ms) {
+	if (!this->_onDelay){
+		this->_initTime = millis();
+		this->_onDelay = true;
+		return true;
+	}
+	if ((millis() - this->_initTime) > ms) {
+		return false;
+	}
+	return true;
 }
 
 void LN5644::display(int position, int data) {
 	int* bits;
-	bits = _readBits(data);
+	bits = this->_readBits(data);
 	for (int i = 0; i < 8; i++) {
-		_leds[position][i] = bits[i];
+		this->_leds[position][i] = bits[i];
 	}
 }
 
+// создает массив бит двоичного представления переданного числа
 int* LN5644::_readBits(int data) {
 	int outs[8];
 	int c = 1;
@@ -78,5 +109,5 @@ int* LN5644::_readBits(int data) {
 		}
 		c = c << 1;
 	}
-	return *outs;
+	return outs;
 }

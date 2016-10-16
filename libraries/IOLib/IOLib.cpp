@@ -3,8 +3,6 @@ IOLib.h - библиотека-обертка операций ввода/выв
 */
 
 #include "IOLib.h"
-#include "DigitalInput.h"
-#include "DigitalOutput.h"
 
 DigitalInput newDI(byte pin) {
 	DigitalInput din(pin);
@@ -16,12 +14,12 @@ DigitalInput newDI(byte pin, long debounceTime) {
 	return din;
 }
 
-DigitalOutput newDO(byte pin) {
-	DigitalOutput dout(pin);
+SDigitalOutput newDO(byte pin) {
+	SDigitalOutput dout(pin);
 	return dout;
 }
 
-DigitalOutput newDO(byte pin, byte initState) {
-	DigitalOutput dout(pin);
+SDigitalOutput newDO(byte pin, byte initState) {
+	SDigitalOutput dout(pin);
 	return dout;
 }

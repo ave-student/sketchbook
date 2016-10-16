@@ -2,14 +2,29 @@
 
 */
 
+#include "IOLib.h"
 #include "LN5644.h"
 
 /* int d1 = 10; */
 /* int d2 = 11; */
 /* int dig[] = {d1, d2}; */
 
-int an[] = {13, 10, 11, 13};
-int seg[] = {2, 3, 4, 5, 6, 7, 8, 9}; 
+SDigitalOutput do13(13);
+SDigitalOutput do10(10);
+SDigitalOutput do11(11);
+
+SDigitalOutput an[] = {do13, do10, do11, do13};
+
+SDigitalOutput seg[8];
+
+void _init(void) {
+	for (int i = 0; i < 8; i++) {
+		seg[i] = newDO(i);
+	}
+}
+
+/* int an[] = {13, 10, 11, 13}; */
+/* int seg[] = {2, 3, 4, 5, 6, 7, 8, 9};  */
 
 /* int n6[] = {LOW, HIGH, LOW, LOW, LOW, LOW, LOW, HIGH}; */
 /* int n9[] = {LOW, LOW, LOW, LOW, HIGH, LOW, LOW, HIGH}; */
@@ -20,7 +35,7 @@ int seg[] = {2, 3, 4, 5, 6, 7, 8, 9};
 /* int d = 1; */
 /* int n = 0; */
 
-LN5644 disp(*an, *seg);
+LN5644 disp(an, seg);
 
 void setup() {
 	/* for(int i = 2; i <= 11; i++) { */
@@ -35,9 +50,13 @@ void setup() {
 	/* delay(2000); */
 	/* digitalWrite(d1, LOW); */
 	/* digitalWrite(d2, LOW); */
+	_init();
+	disp.display(1, N6);
+	disp.display(2, N9);
 }
 
 void loop() {
+	disp.next();
 	/* digitalWrite(dig[d], LOW); */
     /*  */
 	/* d = !d; */
