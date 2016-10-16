@@ -96,6 +96,41 @@ void LN5644::display(int position, int data) {
 	}
 }
 
+void LN5644::display(int number) {
+	int* nums;
+	nums = this->_extractDigits(number);
+	for (int i = 0; i < 4; i++) {
+		this->display(i, this->numbers[nums[i]]);
+	}
+}
+
+int LN5644::_countNums(int number) {
+	int n = 0;
+	if (number < 0)
+		number = -number;
+	if (number < 10000)
+		n = 4;
+	if (number < 1000)
+		n = 3;
+	if (number < 100)
+		n = 2;
+	if (number < 10)
+		n = 1;
+	return n;
+}
+
+int* LN5644::_extractDigits(int number) {
+	int divider = 10;
+	int rest[] = {0, 0, 0, 0};
+	int quotient = 0;
+	for (int i = 0; i < (this->_countNums(number)); i++) {
+		rest[i] = number % divider;
+		number = (number - rest[i]) / divider;
+		divider = divider * 10;
+	}
+	return rest;
+}
+
 // создает массив бит двоичного представления переданного числа
 int* LN5644::_readBits(int data) {
 	int outs[8];

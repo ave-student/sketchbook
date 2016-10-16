@@ -9,11 +9,12 @@
 /* int d2 = 11; */
 /* int dig[] = {d1, d2}; */
 
-SDigitalOutput do13(13);
+SDigitalOutput doa5(A5);
+SDigitalOutput doa6(A6);
 SDigitalOutput do10(10);
 SDigitalOutput do11(11);
 
-SDigitalOutput an[] = {do13, do10, do11, do13};
+SDigitalOutput an[] = {do10, do11, doa5, doa6};
 
 SDigitalOutput seg[8];
 
@@ -51,12 +52,14 @@ void setup() {
 	/* digitalWrite(d1, LOW); */
 	/* digitalWrite(d2, LOW); */
 	_init();
-	disp.display(1, N6);
-	disp.display(2, N9);
+	/* disp.display(1, N6); */
+	/* disp.display(2, N9); */
 }
 
 void loop() {
 	disp.next();
+	int num = analogRead(A0);
+	disp.display(num);
 	/* digitalWrite(dig[d], LOW); */
     /*  */
 	/* d = !d; */

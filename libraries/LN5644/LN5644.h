@@ -34,6 +34,8 @@ class LN5644 {
 		void setAnods(DigitalOutput pins[]);    // установить пины анодов
 		void setCatods(DigitalOutput pins[]);    // установить пины катодов
 		void setDelayTime(long time);    // установить время задержки, влияет на частоту смены сегментов
+
+		int numbers[10] = {N0, N1, N2, N3, N4, N5, N6, N7, N8, N9};    // массив символов цифр 0-9
 	private:
 		int _activeAnod;    // Активный сегмент
 		int _leds[4][8];    // массив состояний сегментов дисплея
@@ -42,6 +44,9 @@ class LN5644 {
 		boolean _onDelay;    // флаг активности функции задержки
 		long _initTime;    // время начала задержки
 		long _delayTime;    // время задержки
+
+		int _countNums(int number);    // вычисляет количество знаков числа
+		int* _extractDigits(int number);
 		int* _readBits(int data);    // 
 		void _initLeds(int state);    // инициализация состояния сегментов
 		boolean _delay(long ms);    // задержка
