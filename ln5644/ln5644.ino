@@ -51,7 +51,7 @@ LN5644 disp(an, seg);
 
 void setup() {
 	Serial.begin(9600);
-	Serial.println("begin");
+	Serial.print("\nBegin\n\n");
 	disp.setDelayTime(500);
 	
 	for(int i = 2; i <= 11; i++) {
@@ -80,9 +80,8 @@ void setup() {
 }
 
 void loop() {
-	Serial.println("loop");
+	Serial.print("loop() {\n");
 	disp.next();
-	Serial.println("next");
 	/* int num = analogRead(A0); */
 	disp.display(690);
 	/* disp.test(); */

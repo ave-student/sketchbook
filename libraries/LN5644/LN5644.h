@@ -45,9 +45,14 @@ class LN5644 {
 		long _initTime;    // время начала задержки
 		long _delayTime;    // время задержки
 
+		// Данные переменные необходимы чтобы избежать возврата локального массива из функции,
+		// что в свою очередь приводит к непредсказуемым результатам.
+		int _bits[8];    // массив для функции _readBits()
+		int _numbers[4] = {0, 0, 0, 0};    // массив для функции _extractDigits()
+
 		int _countNums(int number);    // вычисляет количество знаков числа
-		int* _extractDigits(int number);
-		int* _readBits(int data);    // 
+		void _extractDigits(int number);    // разбивает число на разряды
+		void _readBits(int data);    // читает биты двоичного представления десятичной цифры
 		void _initLeds(int state);    // инициализация состояния сегментов
 		boolean _delay(long ms);    // задержка
 };

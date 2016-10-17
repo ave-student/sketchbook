@@ -36,9 +36,9 @@ void LN5644::_initLeds(int state) {
 void LN5644::setAnods(int pins[]) {
 	for (int i = 0; i < 4; i++) {
 		this->_anods[i] = pins[i];
-		Serial.print(" ");
+		Serial.print("Anod: ");
 		Serial.print(i);
-		Serial.print("-");
+		Serial.print(" - Pin: ");
 		Serial.println(this->_anods[i]);
 	}
 }
@@ -47,9 +47,9 @@ void LN5644::setAnods(int pins[]) {
 void LN5644::setCatods(int pins[]) {
 	for (int i = 0; i < 8; i++) {
 		this->_catods[i] = pins[i];
-		Serial.print(" ");
+		Serial.print("Catod: "); 
 		Serial.print(i);
-		Serial.print("-");
+		Serial.print(" - Pin: ");
 		Serial.println(this->_catods[i]);
 	}
 }
@@ -61,38 +61,39 @@ void LN5644::next(void) {
 	// }
 	// else {
 		delay(500);
-		Serial.println("next_start");
-		Serial.print("Anod: ");
+		Serial.print("next() {\n");
 		for (int i = 0; i < 4; i++){
-			Serial.print("Anod: ");
+			Serial.print("\tAnod: ");
 			Serial.print(i);
-			Serial.print(" - ");
+			Serial.print(" - Pin: ");
 			Serial.println(this->_anods[i]);
 		}
 		for (int i = 0; i < 8; i++){
-			Serial.print("Catod: ");
+			Serial.print("\tCatod: ");
+			Serial.print(i);
+			Serial.print(" - Pin: ");
 			Serial.println(this->_catods[i]);
 		}
-		Serial.print(" Active anode: ");
+		Serial.print("\n\tActive anode: ");
 		Serial.println(this->_activeAnod);
 		// this->_anods[this->_activeAnod].write(LOW);
 		digitalWrite(this->_anods[this->_activeAnod], LOW);
 		this->_activeAnod = (this->_activeAnod + 5) % 4;
-		Serial.print(" Active anode: ");
+		Serial.print("\n\tActive anode: ");
 		Serial.println(this->_activeAnod);
 
 		for (int i = 0; i < 8; i++) {
 			// this->_catods[i].write(!this->_leds[this->_activeAnod][i]);
 			digitalWrite(this->_catods[i], this->_leds[this->_activeAnod][i]);
-			Serial.print("Leds ");
+			Serial.print("\n\tLed ");
 			Serial.print(i);
 			Serial.print(" : ");
-			Serial.print(this->_leds[this->_activeAnod][i]);
+			Serial.println(this->_leds[this->_activeAnod][i]);
 		}
 		// this->_anods[this->_activeAnod].write(HIGH);
 		delay(500);
 		digitalWrite(this->_anods[this->_activeAnod], HIGH);
-		Serial.println("next_end");
+		Serial.println("next() }");
 	// }
 }
 
@@ -126,27 +127,23 @@ boolean LN5644::_delay(long ms) {
 }
 
 void LN5644::display(int position, int data) {
-	int* bits;
-	bits = this->_readBits(data);
+	this->_readBits(data);
 	for (int i = 0; i < 8; i++) {
-		this->_leds[position][i] = bits[i];
+		this->_leds[position][i] = this->_bits[i];
 		Serial.print("Bit ");
 		Serial.print(i);
 		Serial.print(" : ");
-		Serial.print(bits[i]);
-		Serial.print("; ");
-		Serial.println();
+		Serial.println(this->_bits[i]);
 	}
 }
 
 void LN5644::display(int number) {
-	Serial.println("display_start");
-	int* nums;
-	nums = this->_extractDigits(number);
+	Serial.print("display(int number) {\n");
+	this->_extractDigits(number);
 	for (int i = 0; i < 4; i++) {
-		this->display(i, this->numbers[nums[i]]);
+		this->display(i, this->numbers[this->_numbers[i]]);
 	}
-	Serial.println("display_end");
+	Serial.print("}\n");
 }
 
 int LN5644::_countNums(int number) {
@@ -164,28 +161,25 @@ int LN5644::_countNums(int number) {
 	return n;
 }
 
-int* LN5644::_extractDigits(int number) {
+void LN5644::_extractDigits(int number) {
 	int divider = 10;
-	int rest[] = {0, 0, 0, 0};
 	int quotient = 0;
 	for (int i = 0; i < (this->_countNums(number)); i++) {
-		rest[i] = number % divider;
-		number = (number - rest[i]) / divider;
+		this->_numbers[i] = number % divider;
+		number = (number - this->_numbers[i]) / divider;
 		divider = divider * 10;
 	}
-	return rest;
 }
 
 // создает массив бит двоичного представления переданного числа
-int* LN5644::_readBits(int data) {
-	int outs[8];
+void LN5644::_readBits(int data) {
 	int c = 1;
 	for (int i = 0; i < 8; i++) {
 		if (data & c) {
-			outs[i] = 1;
+			this->_bits[i] = 1;
 		}
 		else {
-			outs[i] = 0;
+			this->_bits[i] = 0;
 		}
 		c = c << 1;
 	}
@@ -193,9 +187,6 @@ int* LN5644::_readBits(int data) {
 		Serial.print("BitSource ");
 		Serial.print(i);
 		Serial.print(" : ");
-		Serial.print(outs[i]);
-		Serial.print("; ");
-		Serial.println();
+		Serial.println(this->_bits[i]);
 	}
-	return outs;
 }
