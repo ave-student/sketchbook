@@ -1,6 +1,6 @@
 /*
 LN5644.h - библиотека для работы с семисигментным
-4-х символьным LCD-дисплем.
+4-х символьным дисплем.
 */
 
 #include "Arduino.h"
@@ -12,7 +12,7 @@ LN5644::LN5644(void) {
 
 void LN5644::init(void) {
 	this->_initLeds(LOW);
-	this->setDelayTime(5);
+	this->setDelayTime(2);
 	this->_initTime = 0;
 	this->clear();
 }
@@ -24,7 +24,6 @@ void LN5644::_initLeds(int state) {
 			this->_leds[n][m] = state;
 		}
 	}
-
 	this->_activeAnod = 0;
 }
 
@@ -34,7 +33,6 @@ void LN5644::setAnods(int pins[]) {
 		pinMode(pins[i], OUTPUT);
 		this->_anods[i] = pins[i];
 	}
-	// this->printAnods();
 }
 
 // задает массив выходов подкюченных к катодам
@@ -43,27 +41,6 @@ void LN5644::setCatods(int pins[]) {
 		pinMode(pins[i], OUTPUT);
 		this->_catods[i] = pins[i];
 	}
-	// this->printCatods();
-}
-
-void LN5644::printAnods(void) {
-		Serial.println("\tAnods:");
-		for (int i = 0; i < 4; i++){
-			Serial.print(i);
-			Serial.print(" - pin: ");
-			Serial.println(this->_anods[i]);
-		}
-		Serial.println();
-}
-
-void LN5644::printCatods(void) {
-		Serial.println("\tCatods: ");
-		for (int i = 0; i < 8; i++){
-			Serial.print(i);
-			Serial.print(" - pin: ");
-			Serial.println(this->_catods[i]);
-		}
-		Serial.println();
 }
 
 // используется в цикле loop() программы для отображения содержимого дисплея
@@ -72,21 +49,19 @@ void LN5644::next(void) {
 
 	}
 	else {
-		// this->printAnods();
-		// this->printCatods();
-		
-		// this->_anods[this->_activeAnod].write(LOW);
-		digitalWrite(this->_anods[this->_activeAnod], LOW);
+		this->_write(this->_anods[this->_activeAnod], LOW);
 
 		this->_activeAnod = (this->_activeAnod + 5) % 4;
 
 		for (int i = 0; i < 8; i++) {
-			// this->_catods[i].write(!this->_leds[this->_activeAnod][i]);
-			digitalWrite(this->_catods[i], this->_leds[this->_activeAnod][i]);
+			this->_write(this->_catods[i], this->_leds[this->_activeAnod][i]);
 		}
-		// this->_anods[this->_activeAnod].write(HIGH);
-		digitalWrite(this->_anods[this->_activeAnod], HIGH);
+		this->_write(this->_anods[this->_activeAnod], HIGH);
 	}
+}
+
+void LN5644::_write(int pin, int value) {
+	digitalWrite(pin, value);
 }
 
 // задает время задержки, определяющее частоту мерцания сегментов дисплея
@@ -136,14 +111,31 @@ int LN5644::_readBit(int position, int number) {
 }
 
 void LN5644::display(int number) {
-	for (int i = 0; i < 4; i++) {
-		this->display(i, this->numbers[this->_extractDigit(i, number)]);
+	if (number > 9999) {
+		this->_overflow(OVER_MAX);
+	}
+	else if (number < -999) {
+		this->_overflow(OVER_MIN);
+	}
+	else {
+		for (int i = 0; i < 4; i++) {
+			if ((number < 0) && (i == 3)) {
+				this->display(i, MINUS);
+			}
+			else {
+				this->display(i, this->numbers[this->_extractDigit(i, number)]);
+			}
+		}
 	}
 }
 
 int LN5644::_extractDigit(int position, int number) {
 	int res;
 	int divider = 10;
+	
+	if (number < 0) {
+		number = -number;
+	}
 	
 	res = (number - number % this->_pow(divider, position)) % this->_pow(divider, position + 1);
 	res /= this->_pow(divider, position);
@@ -158,4 +150,27 @@ int LN5644::_pow(int number, int n) {
 		res *= number;	
 	}
 	return res;
+}
+
+void LN5644::_overflow(int d) {
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 8; j++) {
+			if (d == 1) {
+				if (j == 0) {
+					this->_leds[i][j] = 0;
+				}
+				else {
+					this->_leds[i][j] = 1;
+				}
+			}
+			else {
+				if (j == 3) {
+					this->_leds[i][j] = 0;
+				}
+				else {
+					this->_leds[i][j] = 1;
+				}
+			}
+		}
+	}
 }

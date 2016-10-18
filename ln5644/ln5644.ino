@@ -14,5 +14,5 @@ void setup() {
 
 void loop() {
 	disp.next();
-	disp.display(analogRead(A0));
+	disp.display(analogRead(A0) * 12 - 1400);
 }
