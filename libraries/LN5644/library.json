@@ -1,0 +1,15 @@
+{
+  "name": "LN5644",
+  "keywords": "digital, display",
+  "description": "Display LN5644",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/ave-student/LN5644.git"
+  },
+  "frameworks": "arduino",
+  "platforms":
+  [
+    "avr"
+  ]
+}
