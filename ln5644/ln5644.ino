@@ -17,6 +17,7 @@ void setup() {
 	pinMode(bStop, INPUT_PULLUP);
 	pinMode(bPause, INPUT_PULLUP);
 	pinMode(zoomer, OUTPUT);
+	digitalWrite(zoomer, LOW);
 	
 	disp.init();
 

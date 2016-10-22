@@ -1,9 +1,11 @@
 #include "Arduino.h"
 #include <stdio.h>
 
+TimePC time;
+SerialPC Serial;
 
 void pinMode(int pin, int type) {
-	string stype;
+	char* stype;
 	if (type) {
 		stype = "INPUT";
 	}
@@ -22,26 +24,31 @@ int digitalRead(int pin) {
 	printf("Read %d from pin %d\n", pins[pin], pin);
 }
 
-void Serial::print(string str) {
+long millis(void) {
+	time.time++;
+	return time.time;
+}
+
+void SerialPC::print(char* str) {
 	printf("%s", str);
 }
 
-void Serial::print(int dig) {
+void SerialPC::print(int dig) {
 	printf("%d", dig);
 }
 
-void Serial::print(float dig) {
+void SerialPC::print(float dig) {
 	printf("%d", dig);
 }
 
-void Serial::println(string str) {
+void SerialPC::println(char* str) {
 	printf("%s\n", str);
 }
 
-void Serial::println(int dig) {
+void SerialPC::println(int dig) {
 	printf("%d\n", dig);
 }
 
-void Serial::println(float dig) {
+void SerialPC::println(float dig) {
 	printf("%d\n", dig);
 }
