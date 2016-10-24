@@ -28,17 +28,15 @@ void LN5644::_initLeds(int state) {
 }
 
 // задает массив выходов подключенных к анодам
-void LN5644::setAnods(int pins[]) {
+void LN5644::setAnods(SDigitalOutput pins[]) {
 	for (int i = 0; i < 4; i++) {
-		pinMode(pins[i], OUTPUT);
 		this->_anods[i] = pins[i];
 	}
 }
 
 // задает массив выходов подкюченных к катодам
-void LN5644::setCatods(int pins[]) {
+void LN5644::setCatods(SDigitalOutput pins[]) {
 	for (int i = 0; i < 8; i++) {
-		pinMode(pins[i], OUTPUT);
 		this->_catods[i] = pins[i];
 	}
 }
@@ -60,8 +58,9 @@ void LN5644::next(void) {
 	}
 }
 
-void LN5644::_write(int pin, int value) {
-	digitalWrite(pin, value);
+void LN5644::_write(SDigitalOutput out, int value) {
+	// digitalWrite(pin, value);
+	out.write(value);
 }
 
 // задает время задержки, определяющее частоту мерцания сегментов дисплея

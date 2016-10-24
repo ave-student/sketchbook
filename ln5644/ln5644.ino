@@ -14,8 +14,21 @@
 
 #define lim 4
 
-int an[4] = {A0, A1, A2, A3};
-int cat[8] = {7, 9, 5, 3, 2, 8, 6, 4}; 
+SDigitalOutput a0(A0);
+SDigitalOutput a1(A1);
+SDigitalOutput a2(A2);
+SDigitalOutput a3(A3);
+SDigitalOutput an[4] = {a0, a1, a2, a3};
+
+SDigitalOutput d7(7);
+SDigitalOutput d9(9);
+SDigitalOutput d5(5);
+SDigitalOutput d3(3);
+SDigitalOutput d2(2);
+SDigitalOutput d8(8);
+SDigitalOutput d6(6);
+SDigitalOutput d4(4);
+SDigitalOutput cat[8] = {d7, d9, d5, d3, d2, d8, d6, d4};
 
 int value;
 
