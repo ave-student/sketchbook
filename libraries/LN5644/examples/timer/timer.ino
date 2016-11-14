@@ -4,10 +4,11 @@
 #define bStart 10
 #define bPause 11
 #define bStop 12
-#define zoomer A4
+#define zoomer 9
 
-int an[4] = {A0, A1, A2, A3};
-int cat[8] = {7, 9, 5, 3, 2, 8, 6, 4}; 
+#define dataPin 2
+#define clockPin 3
+#define latchPin 4
 
 LN5644 disp;
 Timer timer;
@@ -20,9 +21,7 @@ void setup() {
 	digitalWrite(zoomer, LOW);
 	
 	disp.init();
-
-	disp.setAnods(an);
-	disp.setCatods(cat);
+	disp.setPins(dataPin, clockPin, latchPin);
 }
 
 void loop() {
