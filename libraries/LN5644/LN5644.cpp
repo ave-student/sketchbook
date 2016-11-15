@@ -23,7 +23,7 @@ void LN5644::_initLeds(int state) {
 			this->_leds[n] = 0x00;
 		}
 		else {
-			this->_leds[n] = state;
+			this->_leds[n] = 0xff;
 		}
 	}
 }
