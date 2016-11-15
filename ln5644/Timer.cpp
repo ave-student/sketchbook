@@ -21,6 +21,13 @@ int Timer::next(void) {
 	return this->_curTime;
 }
 
+void Timer::setInitTime(int value) {
+	if (this->_onStart) {
+		this->stop();
+	}
+	this->_curTime = value;
+}
+
 void Timer::start(void) {
 	this->_onStart = true;
 }

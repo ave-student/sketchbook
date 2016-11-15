@@ -1,32 +1,36 @@
 #include "LN5644.h"
+#include "Timer.h"
 
-#define buttons A4
+#define buttons A0
 
 int value;
 
+Timer timer;
 LN5644 disp;
 
 void setup() {
 	pinMode(A4, INPUT);
 	disp.init();
-	disp.setPins(11, 12, 8);
+	disp.setPins(2, 3, 4);
 }
 
 void loop() {
 	disp.next();
-	value = analogRead(buttons);
-	disp.display(value);
 
-	/* if (!digitalRead(bStart())) { */
-	/* 	timer.start(); */
-	/* } */
-	/* if (!digitalRead(bPause())) { */
-	/* 	timer.pause(); */
-	/* } */
-	/* if (!digitalRead(bStop())) { */
-	/* 	timer.stop(); */
-	/* } */
-	/* disp.display(timer.next()); */
+	value = analogRead(buttons);
+
+	if (bStart(value)) {
+		timer.start();
+	}
+	if (bPause(value)) {
+		timer.pause();
+	}
+	if (bStop(value)) {
+		timer.stop();
+	}
+
+	disp.display(timer.next());
+
 	/* if ((timer.next() > 0) && (timer.next() % 60) == 0) { */
 	/* 	tone(zoomer, 5000); */
 	/* } */
@@ -34,4 +38,23 @@ void loop() {
 	/* 	noTone(zoomer); */
 	/* }	 */
 	
+}
+
+boolean bStart(int value) {
+	if ((100 < value) && (value <= 200)) {
+		return true;
+	}
+	return false;
+}
+
+boolean bPause(int value) {
+	if ((200 < value) && (value <= 400))
+		return true;
+	return false;
+}
+
+boolean bStop(int value) {
+	if ((400 < value) && (value <= 550))
+		return true;
+	return false;
 }

@@ -10,6 +10,7 @@ class Timer {
 		void start();
 		void pause();
 		void stop();
+		void setInitTime(int value);
 		bool delay(long time);
 
 	private:
