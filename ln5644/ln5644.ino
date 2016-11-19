@@ -12,6 +12,7 @@ void setup() {
 	pinMode(A4, INPUT);
 	disp.init();
 	disp.setPins(2, 3, 4);
+	timer.setInitTime(1000);
 }
 
 void loop() {
@@ -41,14 +42,14 @@ void loop() {
 }
 
 boolean bStart(int value) {
-	if ((100 < value) && (value <= 200)) {
+	if ((100 < value) && (value <= 250)) {
 		return true;
 	}
 	return false;
 }
 
 boolean bPause(int value) {
-	if ((200 < value) && (value <= 400))
+	if ((250 < value) && (value <= 400))
 		return true;
 	return false;
 }
