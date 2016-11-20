@@ -24,9 +24,7 @@ void loop() {
 	}
 	if (bPause(value)) {
 		timer.pause();
-	}
 	if (bStop(value)) {
-		timer.stop();
 	}
 
 	disp.display(timer.next());
