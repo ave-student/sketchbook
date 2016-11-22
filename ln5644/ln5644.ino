@@ -25,6 +25,7 @@ void loop() {
 	}
 	if (bPause(value)) {
 		timer.pause();
+	}
 	if (bStop(value)) {
 	}
 

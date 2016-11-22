@@ -17,13 +17,15 @@
 // Количество регистров
 #define REGISTR_COUNT 2
 
-// Принятые данные
-int INDATA[7*REGISTR_COUNT+1];
+#include "LN5644.h"
 
-// Принятые данные инверсные
-int INDATAINVERT[7*REGISTR_COUNT+1];
+long bits;
+int bytes[4] = {0};
+LN5644 disp;
 
 void setup() {
+	disp.init();
+	disp.setPins(2, 3, 4);
 	// Настройка вывода платы в режим "Выход"
 	pinMode(pinClock, OUTPUT);  
 	pinMode(pinLatch, OUTPUT);
@@ -40,21 +42,25 @@ void setup() {
 }
 	 
 void loop() {
-	Serial.println("fedcba9876543210");
-	Serial.println(shiftInReg(pinData, pinClock, pinLatch), BIN);
-	Serial.println();
-	delay(1000); 
+	/* Serial.println("fedcba9876543210"); */
+	bits = shiftInReg(pinData, pinClock, pinLatch);
+	displayBits(bits);
+	/* Serial.println(bits, BIN); */
+	/* Serial.println(bits); */
+	/* delay(1000);  */
 }
 
-int shiftInReg(int dataPin, int clockPin, int latchPin) {
-	int data = 0;
+long shiftInReg(int dataPin, int clockPin, int latchPin) {
+	long data = 0;
 	int temp;
 
 	// Устанавливаем состояние защелки: ON
 	digitalWrite(latchPin, HIGH);
 
+	/* Serial.println(); */
+
 	// Прием данных с регистра
-	for(int i = 0; i < 7 * REGISTR_COUNT + 1; i++) {
+	for(int i = 0; i < 8 * REGISTR_COUNT; i++) {
 		temp = digitalRead(dataPin);
 		if (temp) {
 			data = (data << 1) | 1;
@@ -62,11 +68,6 @@ int shiftInReg(int dataPin, int clockPin, int latchPin) {
 		else {
 			data = data << 1;
 		}
-
-		/* INDATA[i] = digitalRead(pinData); */
-		
-		// Получаем данные инверсные
-		/* INDATAINVERT[i] = digitalRead(pinDataInv); */
 
 		// Посылаем такт синхронизации
 		digitalWrite(clockPin, HIGH);
@@ -77,18 +78,20 @@ int shiftInReg(int dataPin, int clockPin, int latchPin) {
 	digitalWrite(latchPin, LOW);
 
 	return data;
+}
 
-	// Выводим данные в терминал
-	/* for(int i = 0; i <7*REGISTR_COUNT+1; i++) { */
-	/* 	// Получаем данные */
-	/* 	Serial.print(INDATA[i]); */
-	/* }     */
-	/* Serial.print(": INDATA"); */
-
-	// Выводим данные инверсные в терминал
-	/* for(int i = 0; i <7*REGISTR_COUNT+1; i++) { */
-	/* 	// Получаем данные */
-	/* 	Serial.print(INDATAINVERT[i]); */
-	/* }     */
-	/* Serial.print(": INDATAINVERT"); */
+void displayBits(long data) {
+	for (int i = 0; i < 4; i++) {
+		bytes[i] = data & 0xf;
+		/* Serial.println(int(data & 0xf), BIN); */
+		/* disp.display(i+1, int(data & 0xf)); */
+		disp.display(1111);
+		data = data >> 4;
+	}
+	/* Serial.println(); */
+	/* for (int i = 0; i < 4; i++) { */
+		/* Serial.print(i); */
+		/* Serial.print(" = "); */
+		/* Serial.println(bytes[i], BIN); */
+	/* } */
 }

@@ -166,3 +166,7 @@ void LN5644::_overflow(int d) {
 		}
 	}
 }
+
+void LN5644::setLeds(int bt, int digit) {
+
+}

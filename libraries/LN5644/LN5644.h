@@ -46,6 +46,7 @@ class LN5644 {
 		void setPins(byte dP, byte cP, byte lP);    // Задать пины управляющей шины
 		void setDelayTime(long time);    // установить время задержки, влияет на частоту смены сегментов
 		void setDot(byte position);    // поставить точку в заданной позиции
+		void setLeds(int bt, int digit);
 
 	private:
 		int _activeAnod;    // Активный сегмент
