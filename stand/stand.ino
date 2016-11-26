@@ -22,10 +22,13 @@
 #include <LiquidCrystal_I2C.h>
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
+/* LN5644 disp; */
 long bits;
 int bytes[4] = {0};
 
 void setup() {
+	/* disp.init(); */
+	/* disp.setPins(2, 3, 4); */
 	lcd.init();
 	lcd.backlight();
 	lcd.print("74HC165 input");
@@ -45,16 +48,10 @@ void setup() {
 }
 	 
 void loop() {
-	/* Serial.println("fedcba9876543210"); */
 	bits = shiftInReg(pinData, pinClock, pinLatch);
 	lcd.setCursor(0, 1);
 	lcd.print(bits, BIN);
 	/* displayBits(bits); */
-	/* Serial.println(bits, BIN); */
-	/* Serial.println(bits); */
-	/* delay(1000);  */
-
-	
 }
 
 long shiftInReg(int dataPin, int clockPin, int latchPin) {
@@ -63,8 +60,6 @@ long shiftInReg(int dataPin, int clockPin, int latchPin) {
 
 	// Устанавливаем состояние защелки: ON
 	digitalWrite(latchPin, HIGH);
-
-	/* Serial.println(); */
 
 	// Прием данных с регистра
 	for(int i = 0; i < 8 * REGISTR_COUNT; i++) {
@@ -95,10 +90,4 @@ long shiftInReg(int dataPin, int clockPin, int latchPin) {
 /* 		disp.display(1111); */
 /* 		data = data >> 4; */
 /* 	} */
-	/* Serial.println(); */
-	/* for (int i = 0; i < 4; i++) { */
-		/* Serial.print(i); */
-		/* Serial.print(" = "); */
-		/* Serial.println(bytes[i], BIN); */
-	/* } */
 /* } */
