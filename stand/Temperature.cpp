@@ -1,14 +1,14 @@
 #include "Temperature.h"
 
 Temperature::Temperature(void) {
-
+	this->_outSensor.begin();
 }
 
-Temperature::setOutPin(int pin) {
-	this->_outPin = pin;
-	
+void Temperature::setRespTime(long time) {
+	this->_respTime = time;
 }
 
-Temperature::setInPin(int pin) {
-	this->_inPin = pin;
+float Temperature::getOutTemp(void) {
+	this->_outSensor.requestTemperatures();
+	return this->_outSensor.getTempCByIndex(0);
 }
