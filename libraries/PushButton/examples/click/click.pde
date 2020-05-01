@@ -1,5 +1,5 @@
 /*
-Пример использования библиотеки DigitalInput.h
+Пример использования библиотеки PushButton.h
 
 Схема:
 	pin 2 - кнопка
@@ -12,7 +12,8 @@
 	после отпускания кнопки.
 */
 
-#include "DigitalInput.h"
+#include "Arduino.h"
+#include "PushButton.h"
 
 // Объявляем пины
 #define led 13
@@ -26,7 +27,7 @@
 int debounceDelay = 50;
 
 // Объявляем переменную дискретного входа
-DigitalInput button(2, debounceDelay);
+PushButton button(2, debounceDelay);
 
 void setup() {
 	// объявляем пины как выходы

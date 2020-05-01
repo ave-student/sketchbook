@@ -1,6 +1,6 @@
 # Datatypes (KEYWORD1)
 
-DigitalInput KEYWORD1
+PushButton KEYWORD1
 
 # Methods (KEYWORD2)
 

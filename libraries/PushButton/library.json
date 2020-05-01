@@ -1,7 +1,7 @@
 {
-  "name": "DigitalInput",
-  "keywords": "digital, input, debounce",
-  "description": "The reading of a digital input signals",
+  "name": "PushButton",
+  "keywords": "digital, button, input, debounce",
+  "description": "The reading of a digital input signals.",
   "repository":
   {
     "type": "git",
