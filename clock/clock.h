@@ -6,6 +6,8 @@ clock.h - скетч часов с будильником и
 #ifndef clock_h
 #define clock_h
 
+#include "PushButton.h"
+
 class Clock {
 	public:
 		int mode;

@@ -37,31 +37,29 @@ class LN5644 {
 		LN5644();    //
 		void init();    // инициализация
 		void next();    // отобразить следующий символ на дисплее
-		void display(int number);    // вывод на дисплей целого числа
-		void display(double number);
-		void display(double number, int digit);    // вывод на дисплей числа с плавающей точкой
+		void display(int digit);    // вывод на дисплей целого числа
+		void display(float digit);    // вывод на дисплей числа с плавающей точкой
 		void display(int position, int data);    // отобразить в указанной позиции символ, заданный байтом данных
 		void clear();    // очистить дисплей
 		void test();    // включить все сегменты дисплея
-		void setPins(byte dP, byte cP, byte lP);    // Задать пины управляющей шины
+		void setAnods(int pins[]);    // установить пины анодов
+		void setCatods(int pins[]);    // установить пины катодов
 		void setDelayTime(long time);    // установить время задержки, влияет на частоту смены сегментов
-		void setDot(byte position);    // поставить точку в заданной позиции
-		void setLeds(int bt, int digit);
 
 	private:
 		int _activeAnod;    // Активный сегмент
-		byte _latchPin;    // пин защелки регистра
-		byte _dataPin;    // пин данных
-		byte _clockPin;    // пин синхронизации
-		int _leds[4];    // массив состояний сегментов дисплея (содержит двоичные данные)
-		boolean _onDelay;    // флаг активности функции задержки
+		int _leds[4][8];    // массив состояний сегментов дисплея
+		int _anods[4];    // пины анодов
+		int _catods[8];    // пины катодов
+		bool _onDelay;    // флаг активности функции задержки
 		long _initTime;    // время начала задержки
 		long _delayTime;    // время задержки
 
 		void _initLeds(int state);    // инициализация состояния сегментов
-		boolean _delay(long ms);    // задержка
-		int _readBit(int position, int digit);    // читает указанный бит числа
+		bool _delay(long ms);    // задержка
+		int _readBit(int position, int number);    // читает указанный бит числа
 		int _extractDigit(int position, int number);    // извлечь из числа цифру в указанной позиции
+		void _write(int out, int value);    // записать значение в заданный выход
 		int _pow(int number, int n);    // возведение в степень
 		void _overflow(int d);    // слишком много символов
 };
