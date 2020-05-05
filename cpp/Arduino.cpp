@@ -3,7 +3,7 @@
 // #include <string.h>
 
 SerialClass Serial;
-ArduinoTime _time;
+ArduinoTime ATime;
 
 void pinMode(int pin, int type) {
 	if (type) {
@@ -14,6 +14,11 @@ void pinMode(int pin, int type) {
 	}
 }
 
+int analogRead(int pin) {
+	printf("Read from pin %d\n", pin);
+	return 0;
+}
+
 void digitalWrite(int pin, int value) {
 	// pins[pin] = value;
 	printf("In pin %d wrote %d\n", pin, value);
@@ -22,11 +27,11 @@ void digitalWrite(int pin, int value) {
 int digitalRead(int pin) {
 	// printf("Read %d from pin %d\n", pins[pin], pin);
 	printf("Read from pin %d\n", pin);
+	return 0;
 }
 
 long millis(void) {
-	_time.time++;
-	return _time.time;
+	return ATime.millis();
 	// return 5000;
 }
 
@@ -47,7 +52,7 @@ void SerialClass::print(int dig) {
 }
 
 void SerialClass::print(float dig) {
-	printf("%d", dig);
+	printf("%f", dig);
 }
 
 // void SerialClass::println(string str) {
@@ -59,5 +64,5 @@ void SerialClass::println(int dig) {
 }
 
 void SerialClass::println(float dig) {
-	printf("%d\n", dig);
+	printf("%f\n", dig);
 }

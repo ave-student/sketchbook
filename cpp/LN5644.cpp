@@ -1,7 +1,4 @@
-/*
-LN5644.h - библиотека для работы с семисигментным
-4-х символьным дисплем.
-*/
+/* LN5644.h - библиотека для работы с семисигментным 4-х символьным дисплем. */
 
 #include "Arduino.h"
 #include "LN5644.h"
@@ -132,11 +129,11 @@ void LN5644::display(int number) {
 int LN5644::_extractDigit(int position, int number) {
 	int res;
 	int divider = 10;
-	
+
 	if (number < 0) {
 		number = -number;
 	}
-	
+
 	res = (number - number % this->_pow(divider, position)) % this->_pow(divider, position + 1);
 	res /= this->_pow(divider, position);
 	return res;
@@ -147,7 +144,7 @@ int LN5644::_pow(int number, int n) {
 	if (n == 0)
 		return res;
 	for (int i = 0; i < (n); i++) {
-		res *= number;	
+		res *= number;
 	}
 	return res;
 }

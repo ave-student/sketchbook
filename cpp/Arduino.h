@@ -19,7 +19,7 @@
 #define A6 20
 
 // int pins[20] = {0};
-// long _time = 0;
+//long _time = 0;
 
 void pinMode(int pin, int type);    // иммитация установки режимa заданного пина
 void digitalWrite(int pin, int value);    // иммитация записи бита в указанный канал
@@ -40,7 +40,16 @@ class SerialClass {
 
 class ArduinoTime {
 	public:
-		long time = 0;
+		ArduinoTime(void) {
+			_time = 0;
+		};
+
+		long millis(void) {
+			_time = _time + 1;
+			return _time;
+		};
+	private:
+		long _time;
 };
 
 #endif
