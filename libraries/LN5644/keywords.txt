@@ -1,0 +1,14 @@
+# Datatypes (KEYWORD1)
+
+LN5644 KEYWORD1
+
+# Methods (KEYWORD2)
+
+init		KEYWORD2
+next		KEYWORD2
+display		KEYWORD2
+clear		KEYWORD2
+test		KEYWORD2
+setAnods	KEYWORD2
+setCatods	KEYWORD2
+setDelayTime	KEYWORD2

@@ -1,11 +1,44 @@
 #include "LN5644.h"
+#include "Timer.h"
 
-int an[4] = {10, 11, A4, A5};
-int cat[8] = {2, 3, 4, 5, 6, 7, 8, 9}; 
+#define zoomer 12
+#define buttons A4
+
+#define but1 514
+#define but2 599
+#define but3 655
+#define but12 747
+#define but13 791
+#define but23 801
+#define but123 866
+
+#define lim 4
+
+SDigitalOutput a0(A0);
+SDigitalOutput a1(A1);
+SDigitalOutput a2(A2);
+SDigitalOutput a3(A3);
+SDigitalOutput an[4] = {a0, a1, a2, a3};
+
+SDigitalOutput d7(7);
+SDigitalOutput d9(9);
+SDigitalOutput d5(5);
+SDigitalOutput d3(3);
+SDigitalOutput d2(2);
+SDigitalOutput d8(8);
+SDigitalOutput d6(6);
+SDigitalOutput d4(4);
+SDigitalOutput cat[8] = {d7, d9, d5, d3, d2, d8, d6, d4};
+
+int value;
 
 LN5644 disp;
+/* Timer timer; */
 
 void setup() {
+	pinMode(zoomer, OUTPUT);
+	digitalWrite(zoomer, LOW);
+	
 	disp.init();
 
 	disp.setAnods(an);
@@ -14,5 +47,67 @@ void setup() {
 
 void loop() {
 	disp.next();
-	disp.display(analogRead(A0) * 12 - 1400);
+	value = analogRead(buttons);
+	disp.display(value);
+
+	/* if (value < 100) { */
+	/* 	disp.clear(); */
+	/* 	disp.display(0, Nb); */
+	/* } */
+	/* else { */
+	/* 	displayButtons(value); */
+	/* } */
+
+	/* if (!digitalRead(bStart())) { */
+	/* 	timer.start(); */
+	/* } */
+	/* if (!digitalRead(bPause())) { */
+	/* 	timer.pause(); */
+	/* } */
+	/* if (!digitalRead(bStop())) { */
+	/* 	timer.stop(); */
+	/* } */
+	/* disp.display(timer.next()); */
+	/* if ((timer.next() > 0) && (timer.next() % 60) == 0) { */
+	/* 	tone(zoomer, 5000); */
+	/* } */
+	/* else { */
+	/* 	noTone(zoomer); */
+	/* }	 */
+	
+}
+
+bool inRange(int num, int range, int limit) {
+	if ((num > (range - limit)) && (num < (range + limit)))
+		return true;
+	return false;
+}
+
+void displayButtons(int value) {
+	if (inRange(value, but1, lim)) {
+		disp.display(3, N8);
+	}
+	if (inRange(value, but2, lim)) {
+		disp.display(2, N8);
+	}
+	if (inRange(value, but3, lim)) {
+		disp.display(1, N8);
+	}
+	if (inRange(value, but12, lim)) {
+		disp.display(3, N8);
+		disp.display(2, N8);
+	}
+	if (inRange(value, but13, lim)) {
+		disp.display(3, N8);
+		disp.display(1, N8);
+	}
+	if (inRange(value, but23, lim)) {
+		disp.display(3, N8);
+		disp.display(2, N8);
+	}
+	if (inRange(value, but123, lim)) {
+		disp.display(3, N8);
+		disp.display(2, N8);
+		disp.display(1, N8);
+	}
 }
