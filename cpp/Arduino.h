@@ -22,6 +22,8 @@
 //long _time = 0;
 
 void pinMode(int pin, int type);    // иммитация установки режимa заданного пина
+int analogRead(int pin);
+void analogWrite(int pin, int value);
 void digitalWrite(int pin, int value);    // иммитация записи бита в указанный канал
 int digitalRead(int pin);    // иммитация чтения бита из канала
 long millis();    // иммитирует возвращение времени

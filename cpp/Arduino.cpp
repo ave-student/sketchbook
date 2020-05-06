@@ -19,6 +19,11 @@ int analogRead(int pin) {
 	return 0;
 }
 
+void analogWrite(int pin, int value) {
+	//pins[pin] = value;
+	printf("In pin %d wrote %d\n", pin, value);
+}
+
 void digitalWrite(int pin, int value) {
 	// pins[pin] = value;
 	printf("In pin %d wrote %d\n", pin, value);

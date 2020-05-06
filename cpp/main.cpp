@@ -39,7 +39,7 @@ bool bStop(int value) {
 void loop() {
 	disp.next();
 
-//	value = analogRead(buttons);
+	value = analogRead(buttons);
 
 	if (bStart(value)) {
 		timer.start();
