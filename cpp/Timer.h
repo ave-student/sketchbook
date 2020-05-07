@@ -1,6 +1,8 @@
 #ifndef Timer_h
 #define Timer_h
 
+#include "Arduino.h"
+
 class Timer {
 	public:
 		Timer();
@@ -9,7 +11,7 @@ class Timer {
 		void pause();
 		void stop();
 		bool delay(long time);
-		void setInitTime(long time);
+
 	private:
 		int _curTime;
 		bool _onStart;

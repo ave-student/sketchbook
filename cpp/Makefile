@@ -1,8 +1,8 @@
-ln5644: main.o Timer.o LN5644.o Arduino.o
-	gcc -o ln5644 main.o Timer.o LN5644.o Arduino.o
+stimer: stimer.o Timer.o LN5644.o Arduino.o
+	gcc -o stimer stimer.o Timer.o LN5644.o Arduino.o
 
-main.o: main.cpp
-	gcc -c main.cpp
+stimer.o: stimer.cpp
+	gcc -c stimer.cpp
 
 Timer.o: Timer.cpp
 	gcc -c Timer.cpp

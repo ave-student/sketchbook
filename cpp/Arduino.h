@@ -18,6 +18,14 @@
 #define A5 19
 #define A6 20
 
+// Для функции shiftOut() порядок следования бит, младший бит первый (LSBFIRST)
+// или старший бит первый (MSBFIRST)
+#define LSBFIRST 0
+#define MSBFIRST 1
+
+typedef int byte;
+typedef bool boolean;
+
 int pins[20] = {0};
 //long _time = 0;
 
