@@ -15,24 +15,23 @@ void pinMode(int pin, int type) {
 }
 
 int analogRead(int pin) {
-	printf("Read from pin %d\n", pin);
-	return 0;
+	printf("Read [%d] from pin %d\n", pins[pin], pin);
+	return pins[pin];
 }
 
 void analogWrite(int pin, int value) {
-	//pins[pin] = value;
+	pins[pin] = value;
 	printf("In pin %d wrote %d\n", pin, value);
 }
 
 void digitalWrite(int pin, int value) {
-	// pins[pin] = value;
+	pins[pin] = value;
 	printf("In pin %d wrote %d\n", pin, value);
 }
 
 int digitalRead(int pin) {
-	// printf("Read %d from pin %d\n", pins[pin], pin);
-	printf("Read from pin %d\n", pin);
-	return 0;
+	printf("Read %d from pin %d\n", pins[pin], pin);
+	return pins[pin];
 }
 
 long millis(void) {
