@@ -18,7 +18,7 @@
 #define A5 19
 #define A6 20
 
-// int pins[20] = {0};
+int pins[20] = {0};
 //long _time = 0;
 
 void pinMode(int pin, int type);    // иммитация установки режимa заданного пина
