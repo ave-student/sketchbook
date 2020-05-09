@@ -6,7 +6,9 @@
 
 class DigitalInput {
 	public:
-		virtual int read();
+		DigitalInput() {};
+		~DigitalInput() {};
+		int read();
 };
 
 #endif
