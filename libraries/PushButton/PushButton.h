@@ -8,12 +8,12 @@ PushButton.h - библиотека для работы с
 
 #include "Arduino.h"
 
-// класс обработки дискретных сигналов
+// класс кнопки
 class PushButton {
 	public:
 		PushButton(byte pin);
 		PushButton(byte pin, long debounceTime);    // конструктор
-		boolean read();    // чтение сигнала на входе с учетом дребезга контактов
+		~PushButton() {};
 		boolean clicked();    // передний фронт сигнала
 		boolean pressed();    // длительное удержание активного состояния
 		boolean longPress();	// долгое нажатие на кнопку
@@ -23,18 +23,25 @@ class PushButton {
 		void setDebounceTime(long time);    // установить время демпфирования
 		long getLongPressTime();
 		void setLongPressTime(long time);
+		void run();    // метод запускается в основном цикле программы loop()
+
+		virtual void onClick() {};
+		virtual void onPress() {};
+		virtual void onRelease() {};
+		virtual void onLongPress() {};
 
 	private:
 		byte _pin;    // номер пина
 		long _debounceTime;    // время демпфирования
 		long _lastTime;    // время последнего изменения состояния входа
+		long _longPressTime;	// время долгого нажатия
 		boolean _state;    // текущее установившееся состояние сигнала
 		boolean _prevState;    // предыдущее установившееся состояние сигнала
 		boolean _lastState;    // последнее мгновенное состояние сигнала
-		long _longPressTime;	// время долгого нажатия
-		boolean _readPin();    // чтение сигнала на данном входе
+
 		void _setPin(byte pin);    // инициализирует пин как дискретный вход
 		void _initVar();    // инициализация переменных
+		void _doAction();    // обработка событий
 };
 
 #endif

@@ -3,7 +3,6 @@ PushButton.h - библиотека для работы с
 цифровыми входами.
 */
 
-#include "Arduino.h"
 #include "PushButton.h"
 
 PushButton::PushButton(byte pin) {
@@ -56,71 +55,67 @@ void PushButton::setLongPressTime(long time) {
 	_longPressTime = time;
 }
 
-// метод возвращает значение сигнала на данном входе
-boolean PushButton::_readPin(void) {
-	return digitalRead(_pin);
-}
-
-// метод возвращает значение сигнала на входе с учетом дребезга контактов
-boolean PushButton::read(void) {
-	boolean reading = _readPin();
+// метод запускается в основном цикле программы loop()
+void PushButton::run(void) {
+	boolean reading = digitalRead(_pin);
 
 	if (reading != _lastState) {
 		_lastTime = millis();
 	}
 
 	if (millis() - _lastTime > _debounceTime) {
-		if (reading != _state) {
+	if (reading != _state) {
 			_prevState = _state;
 			_state = reading;
 		}
 	}
 
 	_lastState = reading;
-	return _state;
+	_doAction();
 }
 
 // событие подачи сигнала (клик)
 boolean PushButton::clicked() {
-	read();
-
 	if (_prevState == HIGH && _state == LOW) {
-		_prevState = _state;
 		return true;
 	}
-
 	return false;
 }
 
 // низкий уровень сигнала (кнопка нажата)
 boolean PushButton::pressed() {
-	read();
-
 	if (_state == LOW) {
 		return true;
 	}
-
 	return false;
 }
 
 boolean PushButton::longPress() {
-	read();
-
 	if ((_state == LOW) && (millis() - _lastTime > _longPressTime)) {
 		return true;
 	}
-
 	return false;
 }
 
 // событие съема сигнала (отпускание кнопки)
 boolean PushButton::released() {
-	read();
-
 	if (_prevState == LOW && _state == HIGH) {
-		_prevState = _state;
 		return true;
 	}
-
 	return false;
+}
+
+void PushButton::_doAction() { 
+	if (clicked()) {
+		onClick();
+	}
+	if (pressed()) {
+		onPress();
+	}
+	if (longPress()) {
+		onLongPress();
+	}
+	if (released()) {
+		onRelease();
+	}
 }
