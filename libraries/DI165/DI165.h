@@ -5,7 +5,7 @@
 #ifndef DI165_h
 #define DI165_h
 
-// максимальное число регистров подключенны каскадно
+// максимальное число регистров подключенных каскадно
 #define REGISTER_COUNT_DI165 8
 
 #include "Arduino.h"
@@ -23,7 +23,7 @@ class DI165 {
 		byte read(int pin);    // считать значение заданного входа
 		void setRespTime(long time);    // установить время опроса в миллисекундах
 		void clear();    // очистка массива данных
-		
+
 	private:
 		int _regCount;    // количество подключенных регистров
 		byte _data[REGISTER_COUNT_DI165];    // данные считанные с регистров
