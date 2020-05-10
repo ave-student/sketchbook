@@ -19,16 +19,25 @@ class B: public DigitalInput {
 		};
 };
 
+class C: public B {
+	public:
+		int read() {
+			return 30;
+		}
+};
+
 void pr(DigitalInput *in) {
 	printf("%d\n", in->read());
 }
 
 DigitalInput* a = new A;
 DigitalInput* b = new B;
+DigitalInput* c = new C;
 
 int main() {
 //	printf("%d\n", a.read());
 	pr(a);
 	pr(b);
+	pr(c);
 	return 0;
 }

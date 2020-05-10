@@ -8,7 +8,7 @@ class DigitalInput {
 	public:
 		DigitalInput() {};
 		~DigitalInput() {};
-		int read();
+		virtual int read() = 0;
 };
 
 #endif

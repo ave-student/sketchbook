@@ -7,6 +7,7 @@ PushButton.h - библиотека для работы с
 #define PushButton_h    // подключаем ее
 
 #include "Arduino.h"
+#include "DigitalInput.h"
 
 // класс кнопки
 class PushButton {
