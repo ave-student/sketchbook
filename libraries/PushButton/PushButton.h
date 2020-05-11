@@ -12,14 +12,13 @@ PushButton.h - библиотека для работы с
 // класс кнопки
 class PushButton {
 	public:
-		PushButton(byte pin);
-		PushButton(byte pin, long debounceTime);    // конструктор
+		PushButton(DigitalInput* in);
+		PushButton(DigitalInput* in, long debounceTime);    // конструктор
 		~PushButton() {};
 		boolean clicked();    // передний фронт сигнала
 		boolean pressed();    // длительное удержание активного состояния
 		boolean longPress();	// долгое нажатие на кнопку
 		boolean released();    // задний фронт сигнала
-		byte getPin();    // получить номер пина
 		long getDebounceTime();    // получить время демпфирования
 		void setDebounceTime(long time);    // установить время демпфирования
 		long getLongPressTime();
@@ -32,7 +31,7 @@ class PushButton {
 		virtual void onLongPress() {};
 
 	private:
-		byte _pin;    // номер пина
+		DigitalInput* _in;    // объект цифрового входа
 		long _debounceTime;    // время демпфирования
 		long _lastTime;    // время последнего изменения состояния входа
 		long _longPressTime;	// время долгого нажатия
@@ -40,7 +39,6 @@ class PushButton {
 		boolean _prevState;    // предыдущее установившееся состояние сигнала
 		boolean _lastState;    // последнее мгновенное состояние сигнала
 
-		void _setPin(byte pin);    // инициализирует пин как дискретный вход
 		void _initVar();    // инициализация переменных
 		void _doAction();    // обработка событий
 };

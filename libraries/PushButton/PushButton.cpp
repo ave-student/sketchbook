@@ -5,16 +5,16 @@ PushButton.h - библиотека для работы с
 
 #include "PushButton.h"
 
-PushButton::PushButton(byte pin) {
+PushButton::PushButton(DigitalInput* in) {
 	_debounceTime = 50;
 	_longPressTime = 3000;
-	_setPin(pin);
+	_in = in
 	_initVar();
 }
 
 PushButton::PushButton(byte pin, long debounceTime) {
 	_debounceTime = debounceTime;
-	_setPin(pin);
+	_in = in
 	_initVar();
 }
 
@@ -24,17 +24,6 @@ void PushButton::_initVar() {
 	_lastState = HIGH;    // последнее мгновенное состояние входного сигнала
 	_state = HIGH;    // текущее установившееся состояние входного сигнала
 	_prevState = HIGH;    // предыдущее установившееся состояние сигнала
-}
-
-// инициализирует пин как дискретный вход с подтягивающим резистором
-void PushButton::_setPin(byte pin) {
-	_pin = pin;
-	pinMode(_pin, INPUT_PULLUP);
-}
-
-// получить номер пина
-byte PushButton::getPin(void) {
-	return _pin;
 }
 
 // метод возращает значение времени демпфирования
@@ -57,7 +46,7 @@ void PushButton::setLongPressTime(long time) {
 
 // метод запускается в основном цикле программы loop()
 void PushButton::run(void) {
-	boolean reading = digitalRead(_pin);
+	boolean reading = _in.read();
 
 	if (reading != _lastState) {
 		_lastTime = millis();
