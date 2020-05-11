@@ -4,9 +4,18 @@ PushButton KEYWORD1
 
 # Methods (KEYWORD2)
 
-read		KEYWORD2
-clicked		KEYWORD2
-pressed		KEYWORD2
-released	KEYWORD2
-getDebounceTime		KEYWORD2
-setDebounceTime		KEYWORD2
+run	KEYWORD2
+clicked KEYWORD2
+pressed KEYWORD2
+longPress KEYWORD2
+released KEYWORD2
+getDebounceTime KEYWORD2
+setDebounceTime KEYWORD2
+getLongPressTime KEYWORD2
+setLongPressTime KEYWORD2
+
+# Virtual methods (KEYWORD2)
+onClick KEYWORD2
+onPress KEYWORD2
+onLongPress KEYWORD2
+onRelease KEYWORD2

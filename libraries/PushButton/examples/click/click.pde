@@ -16,6 +16,7 @@
 #include "PushButton.h";
 
 // Объявляем пины
+#define btn_pin 2;
 #define led 13;
 #define zoomer 12;
 
@@ -28,7 +29,7 @@
 int debounceDelay = 50;
 
 // Объявляем переменную дискретного входа
-PushButton button(2, debounceDelay);
+PushButton button(btn_pin, debounceDelay);
 
 void setup() {
 	// объявляем пины как выходы

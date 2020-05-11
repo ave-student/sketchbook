@@ -5,7 +5,7 @@ PushButton.h - библиотека для работы с
 
 #include "PushButton.h"
 
-PushButton::PushButton(DigitalInput* in) {
+PushButton::PushButton(byte pin) {
 	_debounceTime = 50;
 	_longPressTime = 3000;
 	_setInput(pin);
@@ -16,6 +16,20 @@ PushButton::PushButton(byte pin, long debounceTime) {
 	_debounceTime = debounceTime;
 	_longPressTime = 3000;
 	_setInput(pin);
+	_initVar();
+}
+
+PushButton::PushButton(DigitalInput* in) {
+	_in = in;
+	_debounceTime = 50;
+	_longPressTime = 3000;
+	_initVar();
+}
+
+PushButton::PushButton(DigitalInput* in, long debounceTime) {
+	_in = in;
+	_debounceTime = debounceTime;
+	_longPressTime = 3000;
 	_initVar();
 }
 
