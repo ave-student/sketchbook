@@ -6,11 +6,8 @@
 
 class DigitalInput {
 	public:
-<<<<<<< HEAD
 		DigitalInput() {};
 		~DigitalInput() {};
-=======
->>>>>>> dev1
 		virtual int read() = 0;
 };
 

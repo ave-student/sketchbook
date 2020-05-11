@@ -8,22 +8,14 @@ PushButton.h - библиотека для работы с
 PushButton::PushButton(DigitalInput* in) {
 	_debounceTime = 50;
 	_longPressTime = 3000;
-<<<<<<< HEAD
-	_in = in
-=======
 	_setInput(pin);
->>>>>>> dev1
 	_initVar();
 }
 
 PushButton::PushButton(byte pin, long debounceTime) {
 	_debounceTime = debounceTime;
-<<<<<<< HEAD
-	_in = in
-=======
 	_longPressTime = 3000;
 	_setInput(pin);
->>>>>>> dev1
 	_initVar();
 }
 
@@ -59,11 +51,7 @@ void PushButton::setLongPressTime(long time) {
 
 // метод запускается в основном цикле программы loop()
 void PushButton::run(void) {
-<<<<<<< HEAD
-	boolean reading = _in.read();
-=======
 	boolean reading = _in->read();
->>>>>>> dev1
 
 	if (reading != _lastState) {
 		_lastTime = millis();
@@ -111,7 +99,7 @@ boolean PushButton::released() {
 	return false;
 }
 
-void PushButton::_doAction() { 
+void PushButton::_doAction() {
 	if (clicked()) {
 		onClick();
 	}
