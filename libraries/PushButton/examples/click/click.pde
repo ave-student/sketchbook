@@ -27,6 +27,7 @@
 // В противном случае колебания уровня сигнала игнорируются.
 
 int debounceDelay = 50;
+boolean state = LOW;
 
 // Объявляем переменную дискретного входа
 PushButton button(btn_pin, debounceDelay);
@@ -41,14 +42,20 @@ void setup() {
 }
 
 void loop() {
+	// запускает обработчик кнопки
+	button.run();
+	
 	// если произошло событие нажатия кнопки
 	if (button.clicked()) {
 		// выводим в com-порт сообщение
 		Serial.println("Button clicked...");
 		// инвертируем состояние выхода светодиода
-		digitalWrite(led, !digitalRead(led));
+		if (state == LOW) {
+			digitalWrite(led, !digitalRead(led));
+		}
 		// включаем зумер с заданной частотой
 		tone(zoomer, 5000);
+		state = HIGH;
 	}
 
 	// если произошло событие отпускания кнопки
@@ -57,5 +64,6 @@ void loop() {
 		Serial.println("Button released...");
 		// выключаем зумер
 		noTone(zoomer);
+		state = LOW;
 	}
 }
