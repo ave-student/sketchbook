@@ -12,13 +12,13 @@
 	после отпускания кнопки.
 */
 
-#include "Arduino.h";
-#include "PushButton.h";
+#include "Arduino.h"
+#include "PushButton.h"
 
 // Объявляем пины
-#define btn_pin 2;
-#define led 13;
-#define zoomer 12;
+#define btn_pin 2
+#define led 13
+#define zoomer 12
 
 // Время демпфирования
 // Фиксация значения входного сигнала происходит в случае,
